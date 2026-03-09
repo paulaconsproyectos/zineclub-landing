@@ -556,49 +556,89 @@ const CULT_IDS = [
   {id:497,  title:"El Show de Truman"},
 ];
 
-let heroPool = [], heroIdx = 0;
 function shuffle(a){ return a.sort(()=>Math.random()-.5); }
 
-async function buildHeroPool(){
-  const cult = await Promise.allSettled(
-    CULT_IDS.map(f=>fetch(`https://api.themoviedb.org/3/movie/${f.id}?api_key=${TMDB_KEY}&language=es-ES`).then(r=>r.json()).then(d=>({backdrop:d.backdrop_path?IMG_ORIG+d.backdrop_path:null,title:d.title||f.title})))
-  );
-  cult.forEach(r=>{ if(r.status==='fulfilled'&&r.value.backdrop) heroPool.push(r.value); });
-  try {
-    const tr = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_KEY}&language=es-ES`);
-    const td = await tr.json();
-    (td.results||[]).slice(0,10).forEach(m=>{ if(m.backdrop_path) heroPool.push({backdrop:IMG_ORIG+m.backdrop_path,title:m.title||m.name}); });
-  } catch(e){}
-  shuffle(heroPool);
-  if(heroPool.length>0) showHeroFrame(0);
-  if(heroPool.length>1) setInterval(()=>{ heroIdx=(heroIdx+1)%heroPool.length; showHeroFrame(heroIdx); }, 8000);
-}
+// ── URLs 100% verificadas directamente de la API ──
+const HERO_FILMS = [
+  {backdrop:'/tSPT36ZKlP2WVHJLM4cQPLSzv3b.jpg', title:'El Padrino'},
+  {backdrop:'/96hiUXEuYsu4tcnvlaY8tEMFM0m.jpg',  title:'Pulp Fiction'},
+  {backdrop:'/tmU7GeKVybMWFButWEGl2M4GeiP.jpg',  title:'Uno de los Nuestros'},
+  {backdrop:'/fRGxZuo7jJUWQsVg9PREb98Aclp.jpg',  title:'Whiplash'},
+  {backdrop:'/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg',  title:'El Caballero Oscuro'},
+  {backdrop:'/mspMBWDRIQ7UqiTvCf5OL9RBgLx.jpg',  title:'Amélie'},
+  {backdrop:'/xvEKkBWHrBN16pPSZrfAULJE4RZ.jpg',  title:'Cinema Paradiso'},
+  {backdrop:'/l3dpFiqe1PkSWJSmAQ5oBi3JXLM.jpg',  title:'La Lista de Schindler'},
+  {backdrop:'/gNBCvtYyGPbjPCT1k3MvJuNuXR6.jpg',  title:'Ciudad de Dios'},
+];
+
+const POSTER_FILMS = [
+  {poster:'/3bhkrj58Vtu7enYsRolD1fZdja1.jpg', title:'El Padrino'},
+  {poster:'/vQWk5YBFWF4bZaofAbv0tShwBvQ.jpg', title:'Pulp Fiction'},
+  {poster:'/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg', title:'Whiplash'},
+  {poster:'/qJ2tW6WMUDux911r6m7haRef0WH.jpg', title:'El Caballero Oscuro'},
+  {poster:'/z9rC1w0MsAs0sT2K6vr5RUL0xyQ.jpg', title:'Amélie'},
+  {poster:'/gOus2zfc8uePIxKmFbEFZSHEmYE.jpg', title:'La Lista de Schindler'},
+  {poster:'/mfwq2nMBzArzQ7Y9RKE8SKeeTkg.jpg', title:'Cinema Paradiso'},
+  {poster:'/hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg', title:'Ciudad de Dios'},
+  {poster:'/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg', title:'El Padrino II'},
+  {poster:'/8UlWHLMpgZm9xIMP8HRsmFQd6Nm.jpg', title:'La Vida es Bella'},
+  {poster:'/6WBeq4fCfn7AN33GmFssFUXEVDq.jpg', title:'Seven'},
+  {poster:'/bWkfBiCHLpDrKdCJFPwJhK1DZ6s.jpg', title:'Casablanca'},
+  {poster:'/vfJFita4OB2bjuCKaHXFjFma7Mx.jpg', title:'Forrest Gump'},
+  {poster:'/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg', title:'12 Angry Men'},
+  {poster:'/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg', title:'Regreso al Futuro'},
+  {poster:'/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg', title:'Psicosis'},
+];
+
+let heroPool = [], heroIdx = 0;
 
 function showHeroFrame(idx){
-  const item=heroPool[idx]; if(!item) return;
-  const bg=document.getElementById('heroBg');
-  const titleEl=document.getElementById('heroFilmTitle');
-  bg.style.opacity='0';
+  const item = heroPool[idx]; if(!item) return;
+  const bg = document.getElementById('heroBg');
+  const titleEl = document.getElementById('heroFilmTitle');
+  bg.style.opacity = '0';
   setTimeout(()=>{
-    bg.style.backgroundImage=`url(${item.backdrop})`;
-    bg.style.opacity='1';
-    titleEl.textContent=item.title;
-  },150);
+    bg.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${item.backdrop})`;
+    bg.style.opacity = '1';
+    titleEl.textContent = item.title;
+  }, 200);
 }
 
-async function loadPosters(){
-  const track=document.getElementById('filmsTrack');
-  let posters=[];
-  const cult=await Promise.allSettled(CULT_IDS.slice(0,12).map(f=>fetch(`https://api.themoviedb.org/3/movie/${f.id}?api_key=${TMDB_KEY}&language=es-ES`).then(r=>r.json()).then(d=>({src:IMG_W+d.poster_path,title:d.title||f.title,ok:!!d.poster_path}))));
-  cult.forEach(r=>{ if(r.status==='fulfilled'&&r.value.ok) posters.push(r.value); });
-  try {
-    const pr=await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_KEY}&language=es-ES&page=1`);
-    const pd=await pr.json();
-    (pd.results||[]).slice(0,10).forEach(m=>{ if(m.poster_path) posters.push({src:IMG_W+m.poster_path,title:m.title}); });
-  } catch(e){}
-  if(!posters.length){ track.closest('.films-scroll-section').style.display='none'; return; }
-  shuffle(posters);
-  [...posters,...posters].forEach(p=>{ const img=document.createElement('img'); img.src=p.src; img.alt=p.title; img.title=p.title; img.className='film-poster'; img.loading='lazy'; track.appendChild(img); });
+function buildHeroPool(){
+  heroPool = shuffle([...HERO_FILMS]);
+  showHeroFrame(0);
+  if(heroPool.length > 1){
+    setInterval(()=>{ heroIdx=(heroIdx+1)%heroPool.length; showHeroFrame(heroIdx); }, 8000);
+  }
+  // Intentar enriquecer con trending en segundo plano
+  fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_KEY}&language=es-ES`)
+    .then(r=>r.json())
+    .then(td=>{ (td.results||[]).slice(0,8).forEach(m=>{ if(m.backdrop_path) heroPool.push({backdrop:m.backdrop_path,title:m.title||m.name}); }); })
+    .catch(()=>{});
+}
+
+function loadPosters(){
+  const track = document.getElementById('filmsTrack');
+  const posters = shuffle([...POSTER_FILMS]);
+  // Intentar cargar más desde API
+  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_KEY}&language=es-ES`)
+    .then(r=>r.json())
+    .then(pd=>{ (pd.results||[]).slice(0,10).forEach(m=>{ if(m.poster_path) posters.push({poster:m.poster_path,title:m.title}); }); })
+    .catch(()=>{})
+    .finally(()=> renderPosters(track, posters));
+  // Renderizar hardcodeados ya de todas formas
+  setTimeout(()=>{ if(!track.children.length) renderPosters(track, posters); }, 1500);
+}
+
+function renderPosters(track, posters){
+  if(track.children.length) return; // ya renderizado
+  [...posters,...posters].forEach(p=>{
+    const img = document.createElement('img');
+    img.src = `https://image.tmdb.org/t/p/w300${p.poster}`;
+    img.alt = p.title; img.title = p.title;
+    img.className = 'film-poster'; img.loading = 'lazy';
+    track.appendChild(img);
+  });
 }
 
 // ── INTERSECTION OBSERVER ──
