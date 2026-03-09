@@ -65,7 +65,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:cen
 
 /* ── HERO ── */
 .hero{min-height:100svh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px;overflow:hidden;}
-.hero-backdrop{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;}
+.hero-backdrop{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.4s ease;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(9,9,11,0.6) 0%,rgba(9,9,11,0.25) 35%,rgba(9,9,11,0.8) 75%,rgba(9,9,11,1) 100%),linear-gradient(to right,rgba(9,9,11,0.5),transparent 40%,transparent 60%,rgba(9,9,11,0.5));}
 .hero-grid{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.012) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.012) 60px);pointer-events:none;}
 .hero-content{position:relative;z-index:2;}
@@ -486,12 +486,12 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
     <a class="footer-link" href="privacidad.html">Privacidad</a>
     <a class="footer-link" href="cookies.html">Cookies</a>
     <a class="footer-link" href="terminos.html">Términos</a>
-    <a class="footer-link" href="mailto:hola@rack.io">Contacto</a>
+    <a class="footer-link" href="/cdn-cgi/l/email-protection#c8a0a7a4a988baa9aba3e6a1a7">Contacto</a>
   </div>
   <div class="footer-txt">© 2025 Rack</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── SUPABASE (mismas credenciales que la app) ──
 const SUPA_URL = "https://scqoqwmkptyxwpiwhkyk.supabase.co";
 const SUPA_KEY = "sb_publishable_GPGtFCLX8xNSIvyCznVDrg_K3xhtb4N";
@@ -578,12 +578,12 @@ function showHeroFrame(idx){
   const item=heroPool[idx]; if(!item) return;
   const bg=document.getElementById('heroBg');
   const titleEl=document.getElementById('heroFilmTitle');
-  const img=new Image();
-  img.onload=()=>{
-    bg.style.transition='opacity 0s'; bg.style.opacity='0';
-    setTimeout(()=>{ bg.style.backgroundImage=`url(${item.backdrop})`; bg.style.transition='opacity 1.4s ease'; bg.style.opacity='1'; titleEl.textContent=item.title; },200);
-  };
-  img.src=item.backdrop;
+  bg.style.opacity='0';
+  setTimeout(()=>{
+    bg.style.backgroundImage=`url(${item.backdrop})`;
+    bg.style.opacity='1';
+    titleEl.textContent=item.title;
+  },150);
 }
 
 async function loadPosters(){
@@ -606,5 +606,4 @@ const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isInters
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
 // ── QUIZ OPTS ──
-document.querySelectorAll('.quiz-opt').forEach(opt=>{
-  opt.addEventListener('click',function(){ document.querySelectorAll('.quiz-opt').forEach(o=>o.class
+document.qu
