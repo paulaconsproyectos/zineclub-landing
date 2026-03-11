@@ -209,8 +209,8 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
 .footer-txt{font-size:12px;color:var(--t4);flex-shrink:0;}
 
 /* FADE UP */
-.fade-up{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease;}
-.fade-up.visible{opacity:1;transform:translateY(0);}
+.js .fade-up{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease;}
+.js .fade-up.visible{opacity:1;transform:translateY(0);}
 
 /* RESPONSIVE */
 @media(max-width:860px){
@@ -453,6 +453,7 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.documentElement.classList.add("js");
 const SUPA_URL = "https://scqoqwmkptyxwpiwhkyk.supabase.co";
 const SUPA_KEY = "sb_publishable_GPGtFCLX8xNSIvyCznVDrg_K3xhtb4N";
 const TMDB_KEY = "10f1051018046e4262a70010b517415c";
