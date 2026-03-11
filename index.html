@@ -370,7 +370,7 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-backdrop" id="heroBg" style="background-image:url(https://image.tmdb.org/t/p/original/tmU7GeKVybMWFButWEGl2M4GeiP.jpg);opacity:1;"></div>
+  <div class="hero-backdrop" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
@@ -392,11 +392,8 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
 <!-- STATS -->
 <div class="stats-bar">
   <div class="stat-item"><div class="stat-num">6<span>✦</span></div><div class="stat-label">Preguntas · 30 seg</div></div>
-  <div class="stat-div"></div>
   <div class="stat-item"><div class="stat-num">7<span>+</span></div><div class="stat-label">Plataformas</div></div>
-  <div class="stat-div"></div>
   <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Recomendación perfecta</div></div>
-  <div class="stat-div"></div>
   <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Combinaciones posibles</div></div>
 </div>
 
@@ -516,12 +513,6 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
     <div class="section-tag">✦ Sin sorpresas</div>
     <h2 class="section-title">Un precio justo<br/><em>por lo que de verdad usas.</em></h2>
     <p class="section-body" style="margin-bottom:40px;max-width:460px;">Sin algoritmos de suscripción. Sin renovaciones ocultas. Solo cine — cuando quieras y como quieras.</p>
-
-    <div class="pricing-toggle">
-      <button class="ptoggle-btn active" id="pToggleM" onclick="setPricing('monthly')">Mensual</button>
-      <button class="ptoggle-btn" id="pToggleY" onclick="setPricing('yearly')">Anual <span class="ptoggle-badge">−17%</span></button>
-    </div>
-
     <div class="pricing-grid">
 
       <!-- Gratis -->
@@ -547,11 +538,11 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
         <div class="pc-badge">Más popular</div>
         <div class="pc-name">Cinéfilo</div>
         <div class="pc-price-block">
-          <div class="pc-price" id="pcPrice"><span class="pc-euro">€</span><span id="pcAmount">2,99</span></div>
+          <div class="pc-price"><span class="pc-euro">€</span>2,99</div>
         </div>
-        <div class="pc-period" id="pcPeriod">/mes · facturado mensualmente</div>
+        <div class="pc-period">/mes · facturado mensualmente</div>
         <div class="pc-desc">Tests ilimitados. Modo Maratón. El cine que mereces, sin límites ni excusas.</div>
-        <a href="https://paulaconsproyectos.github.io/zineclub/" class="pc-cta pc-cta-gold" id="pcCta">Empezar ahora</a>
+        <a href="https://paulaconsproyectos.github.io/zineclub/" class="pc-cta pc-cta-gold">Empezar ahora</a>
         <ul class="pc-features">
           <li class="pc-feat-head">Todo lo de Gratis, más:</li>
           <li>Tests de mood ilimitados</li>
@@ -565,7 +556,7 @@ footer{background:var(--bg);border-top:1px solid var(--b);padding:36px 48px;disp
       </div>
 
       <!-- Leyenda -->
-      <div class="pc glow-card" id="pcYearCard">
+      <div class="pc glow-card">
         <div class="pc-name">Leyenda</div>
         <div class="pc-price-block">
           <div class="pc-price"><span class="pc-euro">€</span>29,99</div>
@@ -653,15 +644,22 @@ document.getElementById('waitlistEmail').addEventListener('keydown', function(e)
 });
 
 const HERO_FILMS = [
-  {backdrop:'/tSPT36ZKlP2WVHJLM4cQPLSzv3b.jpg', title:'El Padrino'},
-  {backdrop:'/96hiUXEuYsu4tcnvlaY8tEMFM0m.jpg',  title:'Pulp Fiction'},
-  {backdrop:'/tmU7GeKVybMWFButWEGl2M4GeiP.jpg',  title:'Uno de los Nuestros'},
-  {backdrop:'/fRGxZuo7jJUWQsVg9PREb98Aclp.jpg',  title:'Whiplash'},
-  {backdrop:'/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg',  title:'El Caballero Oscuro'},
-  {backdrop:'/mspMBWDRIQ7UqiTvCf5OL9RBgLx.jpg',  title:'Amélie'},
-  {backdrop:'/xvEKkBWHrBN16pPSZrfAULJE4RZ.jpg',  title:'Cinema Paradiso'},
-  {backdrop:'/l3dpFiqe1PkSWJSmAQ5oBi3JXLM.jpg',  title:'La Lista de Schindler'},
-  {backdrop:'/gNBCvtYyGPbjPCT1k3MvJuNuXR6.jpg',  title:'Ciudad de Dios'},
+  {backdrop:'img/goodfellas.jpg',   title:'Uno de los Nuestros'},
+  {backdrop:'img/inception.jpg',    title:'El Origen'},
+  {backdrop:'img/interstellar.jpg', title:'Interstellar'},
+  {backdrop:'img/darkknight.jpg',   title:'El Caballero Oscuro'},
+  {backdrop:'img/parasite.jpg',     title:'Parásitos'},
+  {backdrop:'img/oppenheimer.jpg',  title:'Oppenheimer'},
+  {backdrop:'img/bladerunner.jpg',  title:'Blade Runner 2049'},
+  {backdrop:'img/dune.jpg',         title:'Dune'},
+  {backdrop:'img/godfather.jpg',    title:'El Padrino'},
+  {backdrop:'img/pulpfiction.jpg',  title:'Pulp Fiction'},
+  {backdrop:'img/whiplash.jpg',     title:'Whiplash'},
+  {backdrop:'img/schindler.jpg',    title:'La Lista de Schindler'},
+  {backdrop:'img/cityofgod.jpg',    title:'Ciudad de Dios'},
+  {backdrop:'img/joker.jpg',        title:'Joker'},
+  {backdrop:'img/1917.jpg',         title:'1917'},
+  {backdrop:'img/revenant.jpg',     title:'El Renacido'},
 ];
 
 const POSTER_FILMS = [
@@ -688,33 +686,21 @@ function shuffle(a){ return a.sort(()=>Math.random()-.5); }
 let heroPool=[], heroIdx=0;
 
 function showHeroFrame(idx){
-  const item=heroPool[idx]; if(!item) return;
-  const bg=document.getElementById('heroBg');
-  const titleEl=document.getElementById('heroFilmTitle');
-  if(bg.style.backgroundImage && bg.style.backgroundImage !== 'none'){
-    bg.style.opacity='0';
-    setTimeout(()=>{
-      bg.style.backgroundImage='url('+IMG_ORIG+item.backdrop+')';
-      bg.style.opacity='1';
-      titleEl.textContent=item.title;
-    },200);
-  } else {
-    bg.style.backgroundImage='url('+IMG_ORIG+item.backdrop+')';
+  var item=heroPool[idx]; if(!item) return;
+  var bg=document.getElementById('heroBg');
+  var titleEl=document.getElementById('heroFilmTitle');
+  bg.style.opacity='0';
+  setTimeout(function(){
+    bg.style.backgroundImage='url('+item.backdrop+')';
     bg.style.opacity='1';
-    titleEl.textContent=item.title;
-  }
+    if(titleEl) titleEl.textContent=item.title;
+  },300);
 }
 
 function buildHeroPool(){
   heroPool=shuffle([...HERO_FILMS]);
   showHeroFrame(0);
-  if(heroPool.length>1){
-    setInterval(()=>{ heroIdx=(heroIdx+1)%heroPool.length; showHeroFrame(heroIdx); },8000);
-  }
-  fetch('https://api.themoviedb.org/3/trending/movie/week?api_key='+TMDB_KEY+'&language=es-ES')
-    .then(r=>r.json())
-    .then(td=>{ (td.results||[]).slice(0,8).forEach(m=>{ if(m.backdrop_path) heroPool.push({backdrop:m.backdrop_path,title:m.title||m.name}); }); })
-    .catch(()=>{});
+  setInterval(()=>{ heroIdx=(heroIdx+1)%heroPool.length; showHeroFrame(heroIdx); },7000);
 }
 
 function loadPosters(){
@@ -751,24 +737,6 @@ document.querySelectorAll('.quiz-opt').forEach(opt=>{
 });
 
 
-// Pricing toggle
-function setPricing(period){
-  const isYearly = period === 'yearly';
-  document.getElementById('pToggleM').classList.toggle('active', !isYearly);
-  document.getElementById('pToggleY').classList.toggle('active', isYearly);
-  const amount = document.getElementById('pcAmount');
-  const per = document.getElementById('pcPeriod');
-  const cta = document.getElementById('pcCta');
-  if(amount){
-    amount.style.transition = 'opacity .18s';
-    amount.style.opacity = '0';
-    setTimeout(()=>{
-      amount.textContent = isYearly ? '29,99' : '2,99';
-      per.innerHTML = isYearly ? '/año · <span style="color:var(--acc2);">2,49€/mes</span>' : '/mes · facturado mensualmente';
-      cta.textContent = isYearly ? 'Hacerse Leyenda' : 'Empezar ahora';
-      amount.style.opacity = '1';
-    }, 180);
-  }
 }
 
 
